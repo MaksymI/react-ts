@@ -1,4 +1,4 @@
-import React, { Component, FormEvent, ChangeEvent } from 'react';
+import React, { Component, FormEvent, ChangeEvent, ReactElement } from 'react';
 import { authenticate } from '../utils/api';
 
 const initialState: LoginFormState = {
@@ -44,7 +44,7 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState> {
             });
     };
 
-    render(): JSX.Element {
+    render(): ReactElement<any> {
         return (
             <div className="form-login-container">
                 <form className="form-login" onSubmit={this.onSubmit}>

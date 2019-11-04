@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 import { MovieItem, MovieTabs } from '.';
 import { API_KEY_3, callApi } from '../utils/api';
 import { FILTERS, Movie } from '../interfaces';
@@ -77,7 +77,7 @@ export class MoviesPage extends Component<object, MoviesState> {
         });
     };
 
-    render(): JSX.Element {
+    render(): ReactElement<any> {
         console.log('MoviesPage render', this.state.sort_by);
         return (
             <div className="container">

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 import { MoviesPage, LoginForm } from '.';
 
 const initialState = { isAuth: false };
@@ -13,7 +13,7 @@ export class App extends Component<object, AppState> {
         });
     };
 
-    render(): JSX.Element {
+    render(): ReactElement<any> {
         return this.state.isAuth ? <MoviesPage /> : <LoginForm updateAuth={this.updateAuth} />;
     }
 }

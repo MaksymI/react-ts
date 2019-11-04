@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 import classNames from 'classnames';
 import { FILTERS } from '../interfaces';
 
@@ -26,7 +26,7 @@ export class MovieTabs extends Component<MovieTabsProps, object> {
         return (): void => this.props.updateSortBy(value);
     }
 
-    render(): JSX.Element {
+    render(): ReactElement<any> {
         return (
             <ul className="tabs nav nav-pills">
                 <li className="nav-item">

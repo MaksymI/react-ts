@@ -19,7 +19,8 @@
         "@typescript-eslint/camelcase": [
             "error",
             { "properties": "never", "ignoreDestructuring": true }
-        ]
+        ],
+        "@typescript-eslint/no-explicit-any": "off"
     },
     "settings": {
         "react": {

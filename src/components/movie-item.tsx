@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 import { Movie } from '../interfaces';
 
 const initialState = { willWatch: false };
@@ -25,7 +25,7 @@ export class MovieItem extends Component<MovieItemProps, MovieItemState> {
         };
     }
 
-    render(): JSX.Element {
+    render(): ReactElement<any> {
         const { data, deleteMovie, addMovieToWillWatch, deleteMovieFromWillWatch } = this.props;
 
         return (
