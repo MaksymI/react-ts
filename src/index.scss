@@ -1,23 +1,25 @@
+// @import 'bootstrap/dist/css/bootstrap.min.css';
+
 body {
-  background: #f9f9f9;
+    background: #f9f9f9;
 }
 
 .nav-link {
-  cursor: pointer;
+    cursor: pointer;
 
-  &:hover {
-    color: #007bff;
-  }
+    &:hover {
+        color: #007bff;
+    }
 }
 
 .form-login-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 460px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 460px;
 }
 
 .invalid-feedback {
-  display: block;
+    display: block;
 }

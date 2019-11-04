@@ -1,128 +1,135 @@
 import React, { Component } from 'react';
-import MovieItem from './MovieItem';
+import { MovieItem, MovieTabs } from '.';
 import { API_KEY_3, callApi } from '../utils/api';
-import MovieTabs from './MovieTabs';
-import { FILTERS } from '../interfaces/filters';
-import { Movie } from '../interfaces/movie.interface';
+import { FILTERS, Movie } from '../interfaces';
 
 const initialState: MoviesState = {
-  movies: [],
-  moviesWillWatch: [],
-  sort_by: FILTERS.popularity
+    movies: [],
+    moviesWillWatch: [],
+    sort_by: FILTERS.popularity
 };
 type MoviesState = {
-  movies: Movie[];
-  moviesWillWatch: Movie[];
-  sort_by: FILTERS;
+    movies: Movie[];
+    moviesWillWatch: Movie[];
+    sort_by: FILTERS;
 };
 
-export default class MoviesPage extends Component<object, MoviesState> {
-  readonly state: MoviesState = initialState;
+export class MoviesPage extends Component<object, MoviesState> {
+    readonly state: MoviesState = initialState;
 
-  componentDidMount(): void {
-    console.log('MoviesPage didMount');
-    this.getMovies();
-  }
-
-  componentDidUpdate(_prevProps: {}, prevState: MoviesState): void {
-    console.log('MoviesPage didUpdate');
-    // console.log("prev", prevProps, prevState);
-    // console.log("this", this.props, this.state);
-    if (prevState.sort_by !== this.state.sort_by) {
-      console.log('MoviesPage call api');
-      this.getMovies();
+    componentDidMount(): void {
+        console.log('MoviesPage didMount');
+        this.getMovies();
     }
-  }
 
-  getMovies = async (): Promise<void> => {
-    const data = await callApi(
-      `discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}`
-    );
+    componentDidUpdate(_prevProps: {}, prevState: MoviesState): void {
+        console.log('MoviesPage didUpdate');
+        // console.log("prev", prevProps, prevState);
+        // console.log("this", this.props, this.state);
+        if (prevState.sort_by !== this.state.sort_by) {
+            console.log('MoviesPage call api');
+            this.getMovies();
+        }
+    }
 
-    this.setState({
-      movies: data.results
-    });
-  };
+    getMovies = async (): Promise<void> => {
+        const data = await callApi(
+            `discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}`
+        );
 
-  deleteMovie = (movie: { id: string }): void => {
-    console.log(movie.id);
-    const updateMovies = this.state.movies.filter(item => item.id !== movie.id);
-    console.log(updateMovies);
+        this.setState({
+            movies: data.results
+        });
+    };
 
-    this.setState({
-      movies: updateMovies
-    });
-  };
+    deleteMovie = (movie: Movie): void => {
+        console.log(movie.id);
+        const updateMovies = this.state.movies.filter(
+            item => item.id !== movie.id
+        );
+        console.log(updateMovies);
 
-  addMovieToWillWatch = (movie: Movie): void => {
-    const updateMoviesWillWatch = [...this.state.moviesWillWatch];
-    updateMoviesWillWatch.push(movie);
+        this.setState({
+            movies: updateMovies
+        });
+    };
 
-    this.setState({
-      moviesWillWatch: updateMoviesWillWatch
-    });
-  };
+    addMovieToWillWatch = (movie: Movie): void => {
+        const updateMoviesWillWatch = [...this.state.moviesWillWatch];
+        updateMoviesWillWatch.push(movie);
 
-  deleteMovieFromWillWatch = (movie: { id: string }): void => {
-    const updateMoviesWillWatch = this.state.moviesWillWatch.filter(
-      item => item.id !== movie.id
-    );
+        this.setState({
+            moviesWillWatch: updateMoviesWillWatch
+        });
+    };
 
-    this.setState({
-      moviesWillWatch: updateMoviesWillWatch
-    });
-  };
+    deleteMovieFromWillWatch = (movie: { id: string }): void => {
+        const updateMoviesWillWatch = this.state.moviesWillWatch.filter(
+            item => item.id !== movie.id
+        );
 
-  updateSortBy = (value: FILTERS): void => {
-    this.setState({
-      sort_by: value
-    });
-  };
+        this.setState({
+            moviesWillWatch: updateMoviesWillWatch
+        });
+    };
 
-  render(): JSX.Element {
-    console.log('MoviesPage render', this.state.sort_by);
-    return (
-      <div className="container">
-        <div className="row mt-4">
-          <div className="col-9">
-            <div className="row mb-4">
-              <div className="col-12">
-                <MovieTabs
-                  sort_by={this.state.sort_by}
-                  updateSortBy={this.updateSortBy}
-                />
-              </div>
+    updateSortBy = (value: FILTERS): void => {
+        this.setState({
+            sort_by: value
+        });
+    };
+
+    render(): JSX.Element {
+        console.log('MoviesPage render', this.state.sort_by);
+        return (
+            <div className="container">
+                <div className="row mt-4">
+                    <div className="col-9">
+                        <div className="row mb-4">
+                            <div className="col-12">
+                                <MovieTabs
+                                    sort_by={this.state.sort_by}
+                                    updateSortBy={this.updateSortBy}
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
+                            {this.state.movies.map(movie => {
+                                return (
+                                    <div className="col-6 mb-4" key={movie.id}>
+                                        <MovieItem
+                                            data={movie}
+                                            deleteMovie={this.deleteMovie}
+                                            addMovieToWillWatch={
+                                                this.addMovieToWillWatch
+                                            }
+                                            deleteMovieFromWillWatch={
+                                                this.deleteMovieFromWillWatch
+                                            }
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div className="col-3">
+                        <h4>
+                            Will Watch: {this.state.moviesWillWatch.length}{' '}
+                            movies
+                        </h4>
+                        <ul className="list-group">
+                            {this.state.moviesWillWatch.map(movie => (
+                                <li key={movie.id} className="list-group-item">
+                                    <div className="d-flex justify-content-between">
+                                        <p>{movie.title}</p>
+                                        <p>{movie.vote_average}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div className="row">
-              {this.state.movies.map(movie => {
-                return (
-                  <div className="col-6 mb-4" key={movie.id}>
-                    <MovieItem
-                      data={movie}
-                      deleteMovie={this.deleteMovie}
-                      addMovieToWillWatch={this.addMovieToWillWatch}
-                      deleteMovieFromWillWatch={this.deleteMovieFromWillWatch}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div className="col-3">
-            <h4>Will Watch: {this.state.moviesWillWatch.length} movies</h4>
-            <ul className="list-group">
-              {this.state.moviesWillWatch.map(movie => (
-                <li key={movie.id} className="list-group-item">
-                  <div className="d-flex justify-content-between">
-                    <p>{movie.title}</p>
-                    <p>{movie.vote_average}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
-  }
+        );
+    }
 }
