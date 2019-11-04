@@ -1,5 +1,5 @@
 import React, { Component, FormEvent, ChangeEvent } from 'react';
-import { API_URL, API_KEY_3 } from '../utils/api';
+import { authenticate } from '../utils/api';
 
 const initialState: LoginFormState = {
     username: '',
@@ -29,43 +29,18 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState> {
         event.preventDefault();
         console.log('onSubmit() this.state --', this.state);
 
-        fetch(`${API_URL}/authentication/token/new?api_key=${API_KEY_3}`)
-            .then(response => response.json())
+        authenticate(this.state.username, this.state.password)
             .then(data => {
-                const { request_token } = data;
-                console.log('request_token', request_token);
-                fetch(`${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: this.state.username,
-                        password: this.state.password,
-                        request_token: request_token
-                    })
-                })
-                    .then(response => {
-                        console.log('response', response);
-                        if (response.status < 400) {
-                            return response.json();
-                        } else {
-                            throw response.json();
-                        }
-                    })
-                    .then(data => {
-                        this.props.updateAuth(true);
-                        console.log('post data', data);
-                    })
-                    .catch(response => {
-                        response.then((error: { status_message: string }) => {
-                            console.log('error', error);
-                            this.setState({
-                                error: error.status_message
-                            });
-                        });
+                this.props.updateAuth(true);
+                console.log('post data', data);
+            })
+            .catch(response => {
+                response.then((error: { status_message: string }) => {
+                    console.log('error', error);
+                    this.setState({
+                        error: error.status_message
                     });
+                });
             });
     };
 

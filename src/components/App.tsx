@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MoviesPage, LoginForm } from '.';
 
-const initialState = { isAuth: true };
+const initialState = { isAuth: false };
 type AppState = Readonly<typeof initialState>;
 
 export class App extends Component<object, AppState> {
