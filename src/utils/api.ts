@@ -1,5 +1,10 @@
 import { Movie } from '../interfaces';
 
+type AuthenticateStatus = {
+    status_code: number;
+    status_message: string;
+};
+
 export const API_URL = 'https://api.themoviedb.org/3';
 
 export const API_KEY_3 = '3f4ca4f3a9750da53450646ced312397';
@@ -23,7 +28,7 @@ export const callApi = (url = '', options = {}): Promise<{ results: Movie[] }> =
     });
 };
 
-export const authenticate = (username: string, password: string): Promise<{ results: boolean }> => {
+export const authenticate = (username: string, password: string): Promise<AuthenticateStatus> => {
     return new Promise(resolve => {
         fetch(`${API_URL}/authentication/token/new?api_key=${API_KEY_3}`)
             .then(response => response.json())
@@ -50,8 +55,9 @@ export const authenticate = (username: string, password: string): Promise<{ resu
                             throw response.json();
                         }
                     })
-                    .then(data => {
-                        resolve(data);
+                    .then((status: AuthenticateStatus) => {
+                        console.log('data', status);
+                        resolve(status);
                     });
             });
     });
