@@ -14,18 +14,17 @@ type MovieItemProps = {
 export class MovieItem extends Component<MovieItemProps, MovieItemState> {
     readonly state: MovieItemState = initialState;
 
-    render(): JSX.Element {
-        const { data, deleteMovie, addMovieToWillWatch, deleteMovieFromWillWatch } = this.props;
-
-        const handleWillWatchClick = (
-            willWatch: boolean,
-            action: (data: Movie) => void
-        ): (() => void) => (): void => {
+    handleWillWatchClick(willWatch: boolean, action: (data: Movie) => void): () => void {
+        return (): void => {
             this.setState({
                 willWatch
             });
-            action(data);
+            action(this.props.data);
         };
+    }
+
+    render(): JSX.Element {
+        const { data, deleteMovie, addMovieToWillWatch, deleteMovieFromWillWatch } = this.props;
 
         return (
             <div className="card">
@@ -42,7 +41,7 @@ export class MovieItem extends Component<MovieItemProps, MovieItemState> {
                             <button
                                 type="button"
                                 className="btn btn-success"
-                                onClick={handleWillWatchClick(false, deleteMovieFromWillWatch)}
+                                onClick={this.handleWillWatchClick(false, deleteMovieFromWillWatch)}
                             >
                                 Will Watch
                             </button>
@@ -50,7 +49,7 @@ export class MovieItem extends Component<MovieItemProps, MovieItemState> {
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={handleWillWatchClick(true, addMovieToWillWatch)}
+                                onClick={this.handleWillWatchClick(true, addMovieToWillWatch)}
                             >
                                 Will Watch
                             </button>
