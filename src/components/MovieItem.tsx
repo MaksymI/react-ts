@@ -15,12 +15,7 @@ export class MovieItem extends Component<MovieItemProps, MovieItemState> {
     readonly state: MovieItemState = initialState;
 
     render(): JSX.Element {
-        const {
-            data,
-            deleteMovie,
-            addMovieToWillWatch,
-            deleteMovieFromWillWatch
-        } = this.props;
+        const { data, deleteMovie, addMovieToWillWatch, deleteMovieFromWillWatch } = this.props;
 
         const handleWillWatchClick = (
             willWatch: boolean,
@@ -36,8 +31,7 @@ export class MovieItem extends Component<MovieItemProps, MovieItemState> {
             <div className="card">
                 <img
                     className="card-img-top"
-                    src={`https://image.tmdb.org/t/p/w500${data.backdrop_path ||
-                        data.poster_path}`}
+                    src={`https://image.tmdb.org/t/p/w500${data.backdrop_path || data.poster_path}`}
                     alt=""
                 />
                 <div className="card-body">
@@ -48,10 +42,7 @@ export class MovieItem extends Component<MovieItemProps, MovieItemState> {
                             <button
                                 type="button"
                                 className="btn btn-success"
-                                onClick={handleWillWatchClick(
-                                    false,
-                                    deleteMovieFromWillWatch
-                                )}
+                                onClick={handleWillWatchClick(false, deleteMovieFromWillWatch)}
                             >
                                 Will Watch
                             </button>
@@ -59,10 +50,7 @@ export class MovieItem extends Component<MovieItemProps, MovieItemState> {
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={handleWillWatchClick(
-                                    true,
-                                    addMovieToWillWatch
-                                )}
+                                onClick={handleWillWatchClick(true, addMovieToWillWatch)}
                             >
                                 Will Watch
                             </button>

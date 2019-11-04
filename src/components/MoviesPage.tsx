@@ -44,9 +44,7 @@ export class MoviesPage extends Component<object, MoviesState> {
 
     deleteMovie = (movie: Movie): void => {
         console.log(movie.id);
-        const updateMovies = this.state.movies.filter(
-            item => item.id !== movie.id
-        );
+        const updateMovies = this.state.movies.filter(item => item.id !== movie.id);
         console.log(updateMovies);
 
         this.setState({
@@ -100,12 +98,8 @@ export class MoviesPage extends Component<object, MoviesState> {
                                         <MovieItem
                                             data={movie}
                                             deleteMovie={this.deleteMovie}
-                                            addMovieToWillWatch={
-                                                this.addMovieToWillWatch
-                                            }
-                                            deleteMovieFromWillWatch={
-                                                this.deleteMovieFromWillWatch
-                                            }
+                                            addMovieToWillWatch={this.addMovieToWillWatch}
+                                            deleteMovieFromWillWatch={this.deleteMovieFromWillWatch}
                                         />
                                     </div>
                                 );
@@ -113,10 +107,7 @@ export class MoviesPage extends Component<object, MoviesState> {
                         </div>
                     </div>
                     <div className="col-3">
-                        <h4>
-                            Will Watch: {this.state.moviesWillWatch.length}{' '}
-                            movies
-                        </h4>
+                        <h4>Will Watch: {this.state.moviesWillWatch.length} movies</h4>
                         <ul className="list-group">
                             {this.state.moviesWillWatch.map(movie => (
                                 <li key={movie.id} className="list-group-item">

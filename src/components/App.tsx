@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { MoviesPage } from './MoviesPage';
-import { LoginForm } from './LoginForm';
+import { MoviesPage, LoginForm } from '.';
 
 const initialState = { isAuth: true };
 type AppState = Readonly<typeof initialState>;
@@ -15,10 +14,6 @@ export class App extends Component<object, AppState> {
     };
 
     render(): JSX.Element {
-        return this.state.isAuth ? (
-            <MoviesPage />
-        ) : (
-            <LoginForm updateAuth={this.updateAuth} />
-        );
+        return this.state.isAuth ? <MoviesPage /> : <LoginForm updateAuth={this.updateAuth} />;
     }
 }

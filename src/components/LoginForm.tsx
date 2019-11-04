@@ -7,15 +7,13 @@ const initialState: LoginFormState = {
     error: null
 };
 type LoginFormState = {
-    [x: string]: string;
+    [key: string]: string;
 };
 type LoginFormProps = { updateAuth: (value: boolean) => void };
 
 export class LoginForm extends Component<LoginFormProps, LoginFormState> {
     readonly state: LoginFormState = initialState;
-    readonly inputNameRef: React.RefObject<
-        HTMLInputElement
-    > = React.createRef();
+    readonly inputNameRef: React.RefObject<HTMLInputElement> = React.createRef();
 
     componentDidMount(): void {
         this.inputNameRef.current.focus();
@@ -36,21 +34,18 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState> {
             .then(data => {
                 const { request_token } = data;
                 console.log('request_token', request_token);
-                fetch(
-                    `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
-                    {
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            username: this.state.username,
-                            password: this.state.password,
-                            request_token: request_token
-                        })
-                    }
-                )
+                fetch(`${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: this.state.username,
+                        password: this.state.password,
+                        request_token: request_token
+                    })
+                })
                     .then(response => {
                         console.log('response', response);
                         if (response.status < 400) {
@@ -78,9 +73,7 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState> {
         return (
             <div className="form-login-container">
                 <form className="form-login" onSubmit={this.onSubmit}>
-                    <h1 className="h3 mb-3 font-weight-normal text-center">
-                        Login
-                    </h1>
+                    <h1 className="h3 mb-3 font-weight-normal text-center">Login</h1>
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input
@@ -106,16 +99,11 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState> {
                             onChange={this.onChange}
                         />
                     </div>
-                    <button
-                        type="submit"
-                        className="btn btn-lg btn-primary btn-block"
-                    >
+                    <button type="submit" className="btn btn-lg btn-primary btn-block">
                         Enter
                     </button>
                     {this.state.error ? (
-                        <div className="invalid-feedback">
-                            {this.state.error}
-                        </div>
+                        <div className="invalid-feedback">{this.state.error}</div>
                     ) : null}
                 </form>
             </div>
