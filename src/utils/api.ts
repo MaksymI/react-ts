@@ -33,8 +33,8 @@ export const authenticate = (username: string, password: string): Promise<Authen
         fetch(`${API_URL}/authentication/token/new?api_key=${API_KEY_3}`)
             .then(response => response.json())
             .then(data => {
-                const { request_token } = data;
-                console.log('request_token', request_token);
+                // const { request_token } = data;
+                // console.log('request_token', request_token);
                 fetch(`${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`, {
                     method: 'POST',
                     mode: 'cors',
@@ -44,11 +44,12 @@ export const authenticate = (username: string, password: string): Promise<Authen
                     body: JSON.stringify({
                         username,
                         password,
-                        request_token
+                        request_token: data.request_token || ''
                     })
                 })
                     .then(response => {
                         console.log('response', response);
+                        // TODO: change to 400!
                         if (response.status < 402) {
                             return response.json();
                         } else {
