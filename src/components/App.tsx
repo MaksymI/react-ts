@@ -7,7 +7,7 @@ type AppState = Readonly<typeof initialState>;
 export class App extends Component<object, AppState> {
     readonly state: AppState = initialState;
 
-    updateAuth = (value: boolean): void => {
+    updateAuth = (value: boolean) => {
         this.setState({
             isAuth: value
         });
