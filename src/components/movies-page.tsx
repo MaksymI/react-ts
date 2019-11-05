@@ -92,18 +92,16 @@ export class MoviesPage extends Component<object, MoviesState> {
                             </div>
                         </div>
                         <div className="row">
-                            {this.state.movies.map(movie => {
-                                return (
-                                    <div className="col-6 mb-4" key={movie.id}>
-                                        <MovieItem
-                                            data={movie}
-                                            deleteMovie={this.deleteMovie}
-                                            addMovieToWillWatch={this.addMovieToWillWatch}
-                                            deleteMovieFromWillWatch={this.deleteMovieFromWillWatch}
-                                        />
-                                    </div>
-                                );
-                            })}
+                            {this.state.movies.map(movie => (
+                                <div className="col-6 mb-4" key={movie.id}>
+                                    <MovieItem
+                                        data={movie}
+                                        deleteMovie={this.deleteMovie}
+                                        addMovieToWillWatch={this.addMovieToWillWatch}
+                                        deleteMovieFromWillWatch={this.deleteMovieFromWillWatch}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className="col-3">
