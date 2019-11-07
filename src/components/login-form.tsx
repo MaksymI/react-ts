@@ -1,22 +1,13 @@
-import React, { FormEvent, ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { authenticate } from '../utils/api';
+import { useSignUpForm } from '../hooks/use-sign-up-form';
+import { loginFormInitialValues } from '../constants/initial-values';
 
 type LoginFormProps = { setIsAuth: (value: boolean) => void };
 
 export function LoginForm(props: LoginFormProps): ReactElement<any> {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-
-    const inputNameRef: React.RefObject<HTMLInputElement> = React.createRef();
-
-    useEffect(() => {
-        inputNameRef.current.focus();
-    });
-
-    const onSubmit = (event: FormEvent): void => {
-        event.preventDefault();
-
+    const authenticateUser = (username: string, password: string): void => {
         authenticate(username, password)
             .then(data => {
                 props.setIsAuth(true);
@@ -29,10 +20,18 @@ export function LoginForm(props: LoginFormProps): ReactElement<any> {
                 });
             });
     };
+    const { handleSubmit, handleInputChange, inputs } = useSignUpForm(
+        loginFormInitialValues,
+        authenticateUser
+    );
+
+    const inputNameRef: React.RefObject<HTMLInputElement> = React.createRef();
+
+    useEffect(() => inputNameRef.current.focus(), []);
 
     return (
         <div className="form-login-container">
-            <form className="form-login" onSubmit={onSubmit}>
+            <form className="form-login" onSubmit={handleSubmit}>
                 <h1 className="h3 mb-3 font-weight-normal text-center">Login</h1>
                 <div className="form-group">
                     <label htmlFor="username">Username</label>
@@ -42,9 +41,9 @@ export function LoginForm(props: LoginFormProps): ReactElement<any> {
                         id="username"
                         placeholder="username"
                         name="username"
-                        value={username}
+                        value={inputs.username}
                         ref={inputNameRef}
-                        onChange={event => setUsername(event.target.value)}
+                        onChange={handleInputChange}
                     />
                 </div>
                 <div className="form-group">
@@ -55,8 +54,8 @@ export function LoginForm(props: LoginFormProps): ReactElement<any> {
                         id="password"
                         placeholder="password"
                         name="password"
-                        value={password}
-                        onChange={event => setPassword(event.target.value)}
+                        value={inputs.password}
+                        onChange={handleInputChange}
                     />
                 </div>
                 <button type="submit" className="btn btn-lg btn-primary btn-block">
