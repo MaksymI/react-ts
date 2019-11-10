@@ -11,13 +11,15 @@ type MovieItemProps = {
 export function MovieItem(props: MovieItemProps): ReactElement<any> {
     const [willWatch, setWillWatch] = useState(false);
     const { data, deleteMovie, addMovieToWillWatch, deleteMovieFromWillWatch } = props;
-    const handleWillWatchClick = useCallback(
-        (willWatch: boolean, action: (data: Movie) => void): void => {
-            setWillWatch(willWatch);
-            action(data);
-        },
-        [willWatch, data]
-    );
+    const willWatchDelete = useCallback((): void => {
+        setWillWatch(false);
+        deleteMovieFromWillWatch(data);
+    }, [deleteMovieFromWillWatch, data]);
+
+    const willWatchAdd = useCallback((): void => {
+        setWillWatch(true);
+        addMovieToWillWatch(data);
+    }, [addMovieToWillWatch, data]);
 
     return (
         <div className="card">
@@ -31,21 +33,11 @@ export function MovieItem(props: MovieItemProps): ReactElement<any> {
                 <div className="d-flex justify-content-between align-items-center">
                     <p className="mb-0">Rating: {data.vote_average}</p>
                     {willWatch ? (
-                        <button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={(): void =>
-                                handleWillWatchClick(false, deleteMovieFromWillWatch)
-                            }
-                        >
+                        <button type="button" className="btn btn-success" onClick={willWatchDelete}>
                             Will Watch
                         </button>
                     ) : (
-                        <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={(): void => handleWillWatchClick(true, addMovieToWillWatch)}
-                        >
+                        <button type="button" className="btn btn-secondary" onClick={willWatchAdd}>
                             Will Watch
                         </button>
                     )}
