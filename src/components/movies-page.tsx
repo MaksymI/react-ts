@@ -1,5 +1,5 @@
 import React, { Component, ReactElement } from 'react';
-import { MovieItem, MovieTabs } from '.';
+import { MovieItem, MovieTabs, WillWatchItem } from '.';
 import { API_KEY_3, callApi } from '../utils/api';
 import { FILTERS, Movie } from '../interfaces';
 
@@ -54,6 +54,7 @@ export class MoviesPage extends Component<object, MoviesState> {
 
     addMovieToWillWatch = (movie: Movie): void => {
         const updateMoviesWillWatch = [...this.state.moviesWillWatch];
+        movie.willWatch = true;
         updateMoviesWillWatch.push(movie);
 
         this.setState({
@@ -61,7 +62,8 @@ export class MoviesPage extends Component<object, MoviesState> {
         });
     };
 
-    deleteMovieFromWillWatch = (movie: { id: string }): void => {
+    deleteMovieFromWillWatch = (movie: Movie): void => {
+        movie.willWatch = false;
         const updateMoviesWillWatch = this.state.moviesWillWatch.filter(
             item => item.id !== movie.id
         );
@@ -95,7 +97,7 @@ export class MoviesPage extends Component<object, MoviesState> {
                             {this.state.movies.map(movie => (
                                 <div className="col-6 mb-4" key={movie.id}>
                                     <MovieItem
-                                        data={movie}
+                                        movie={movie}
                                         deleteMovie={this.deleteMovie}
                                         addMovieToWillWatch={this.addMovieToWillWatch}
                                         deleteMovieFromWillWatch={this.deleteMovieFromWillWatch}
@@ -108,12 +110,11 @@ export class MoviesPage extends Component<object, MoviesState> {
                         <h4>Will Watch: {this.state.moviesWillWatch.length} movies</h4>
                         <ul className="list-group">
                             {this.state.moviesWillWatch.map(movie => (
-                                <li key={movie.id} className="list-group-item">
-                                    <div className="d-flex justify-content-between">
-                                        <p>{movie.title}</p>
-                                        <p>{movie.vote_average}</p>
-                                    </div>
-                                </li>
+                                <WillWatchItem
+                                    key={movie.id}
+                                    movie={movie}
+                                    deleteMovieFromWillWatch={this.deleteMovieFromWillWatch}
+                                />
                             ))}
                         </ul>
                     </div>

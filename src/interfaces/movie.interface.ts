@@ -4,4 +4,5 @@ export interface Movie {
     vote_average: string;
     backdrop_path: string;
     poster_path: string;
+    willWatch: boolean;
 }
