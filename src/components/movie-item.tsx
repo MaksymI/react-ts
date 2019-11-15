@@ -21,6 +21,8 @@ export function MovieItem(props: MovieItemProps): ReactElement<any> {
         addMovieToWillWatch(data);
     }, [addMovieToWillWatch, data]);
 
+    const handleDeleteMovieClick = useCallback((): void => deleteMovie(data), [deleteMovie, data]);
+
     return (
         <div className="card">
             <img
@@ -42,12 +44,7 @@ export function MovieItem(props: MovieItemProps): ReactElement<any> {
                         </button>
                     )}
                 </div>
-                <button
-                    type="button"
-                    onClick={(): void => {
-                        deleteMovie(data);
-                    }}
-                >
+                <button type="button" onClick={handleDeleteMovieClick}>
                     Delete
                 </button>
             </div>
