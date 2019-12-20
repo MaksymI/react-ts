@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Good to known
 
-TypeScript Pro tips [https://medium.com/@martin_hotell/10-typescript-pro-tips-patterns-with-or-without-react-5799488d6680](https://medium.com/@martin_hotell/10-typescript-pro-tips-patterns-with-or-without-react-5799488d6680)
+TypeScript Pro tips [https://github.com/Hotell/blogposts/blob/master/2018-10/ten-ts-pro-tips-with-react/blogpost.md](https://github.com/Hotell/blogposts/blob/master/2018-10/ten-ts-pro-tips-with-react/blogpost.md)
 
 ## Available Scripts
 
